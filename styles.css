@@ -1,0 +1,255 @@
+/* 玄穹·问道 — 高级感暗金风格 UI */
+:root{
+  --bg0:#070a12;
+  --bg1:#0b0f1a;
+  --bg2:#0f1627;
+  --card:rgba(255,255,255,.06);
+  --card2:rgba(255,255,255,.04);
+  --stroke:rgba(255,255,255,.08);
+  --text:rgba(255,255,255,.92);
+  --muted:rgba(255,255,255,.62);
+  --gold:#cbb26a;
+  --gold2:#f1dc98;
+  --aura:#7fd6ff;
+  --stone:#c0c6ff;
+  --pill:#ff9bb6;
+  --scroll:#b6ffcc;
+  --mat:#ffd37f;
+  --danger:#ff4d6d;
+  --ok:#58f0a7;
+  --shadow: 0 20px 60px rgba(0,0,0,.45);
+  --radius:16px;
+  --radius2:12px;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  color:var(--text);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Noto Serif SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: radial-gradient(1200px 700px at 25% 10%, rgba(203,178,106,.12), transparent 60%),
+              radial-gradient(1000px 650px at 80% 20%, rgba(127,214,255,.12), transparent 55%),
+              radial-gradient(900px 700px at 40% 90%, rgba(255,155,182,.08), transparent 60%),
+              linear-gradient(180deg, var(--bg0), var(--bg1) 35%, var(--bg0));
+  overflow:hidden;
+}
+
+#bg{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  pointer-events:none;
+  opacity:.85;
+}
+
+.topbar{
+  position:relative;
+  z-index:2;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 18px;
+  border-bottom:1px solid var(--stroke);
+  background: linear-gradient(180deg, rgba(7,10,18,.85), rgba(7,10,18,.55));
+  backdrop-filter: blur(10px);
+}
+.brand{display:flex; gap:12px; align-items:center}
+.sigil{
+  width:40px;height:40px;border-radius:12px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(241,220,152,.8), transparent 45%),
+    radial-gradient(circle at 70% 70%, rgba(127,214,255,.55), transparent 55%),
+    linear-gradient(135deg, rgba(203,178,106,.35), rgba(255,255,255,.04));
+  border:1px solid rgba(203,178,106,.35);
+  box-shadow: 0 10px 40px rgba(0,0,0,.4);
+  position:relative;
+  overflow:hidden;
+}
+.sigil:after{
+  content:"";
+  position:absolute; inset:-60% -60%;
+  background: conic-gradient(from 90deg, transparent, rgba(203,178,106,.35), transparent, rgba(127,214,255,.25), transparent);
+  animation:spin 10s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.title{
+  font-family:"Noto Serif SC", serif;
+  letter-spacing:2px;
+  font-size:18px;
+  font-weight:700;
+}
+.subtitle{color:var(--muted); font-size:12px; letter-spacing: .14em; text-transform: uppercase}
+
+.top-actions{display:flex; flex-wrap:wrap; gap:8px; justify-content:flex-end}
+
+.chip{
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  color:var(--text);
+  padding:8px 10px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:.15s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,.25);
+  font-size:12px;
+}
+.chip:hover{transform:translateY(-1px); border-color: rgba(203,178,106,.35)}
+.chip.danger{border-color: rgba(255,77,109,.35)}
+
+.layout{
+  position:relative;
+  z-index:1;
+  display:grid;
+  grid-template-columns: 340px minmax(520px, 1fr) 340px;
+  gap:14px;
+  padding:14px;
+  height:calc(100% - 72px);
+}
+
+.panel{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+  overflow:auto;
+  padding-right:4px;
+}
+.panel::-webkit-scrollbar{width:10px}
+.panel::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08); border-radius:999px}
+.panel::-webkit-scrollbar-thumb:hover{background:rgba(203,178,106,.22)}
+
+.panel-title{font-family:"Noto Serif SC", serif; letter-spacing:1px; font-weight:700; color:rgba(255,255,255,.85)}
+.panel-title.small{font-size:13px; opacity:.9}
+
+.card{
+  background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.04));
+  border:1px solid rgba(255,255,255,.10);
+  border-radius: var(--radius);
+  padding:14px;
+  box-shadow: var(--shadow);
+}
+.card.subtle{background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));}
+
+.row{display:flex; gap:12px; align-items:center}
+.between{justify-content:space-between}
+.grid{display:grid; gap:10px}
+.grid.stats{grid-template-columns:repeat(2,1fr)}
+.grid.resources{grid-template-columns:repeat(2,1fr)}
+
+.label{color:var(--muted); font-size:12px}
+.value{font-size:16px; font-weight:600}
+.muted{color:var(--muted); font-size:12px; line-height:1.55}
+
+.hr{height:1px; background:rgba(255,255,255,.08); margin:12px 0}
+
+.res{display:flex; align-items:center; gap:8px; font-size:13px; color:rgba(255,255,255,.86)}
+.res b{font-variant-numeric: tabular-nums; font-family: var(--mono); font-size:13px}
+.dot{width:10px;height:10px;border-radius:999px; box-shadow:0 0 18px rgba(255,255,255,.12)}
+.dot.aura{background:var(--aura)}
+.dot.stone{background:var(--stone)}
+.dot.pill{background:var(--pill)}
+.dot.scroll{background:var(--scroll)}
+.dot.mat{background:var(--mat)}
+
+.btn{
+  background: rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.10);
+  color:rgba(255,255,255,.92);
+  padding:10px 12px;
+  border-radius: 12px;
+  cursor:pointer;
+  transition:.15s ease;
+  font-weight:600;
+}
+.btn:hover{transform:translateY(-1px); border-color: rgba(203,178,106,.35)}
+.btn.primary{
+  background: linear-gradient(135deg, rgba(203,178,106,.22), rgba(127,214,255,.10));
+  border-color: rgba(203,178,106,.28);
+}
+.btn.danger{border-color: rgba(255,77,109,.35)}
+
+.mini-actions{display:flex; flex-wrap:wrap; gap:10px; margin-top:10px}
+
+.realm-ring{position:relative; width:78px; height:78px}
+.realm-ring svg{width:78px;height:78px; transform:rotate(-90deg)}
+.track{fill:none; stroke:rgba(255,255,255,.08); stroke-width:10}
+.progress{fill:none; stroke:rgba(203,178,106,.85); stroke-width:10; stroke-linecap:round; stroke-dasharray: 276; stroke-dashoffset: 276; filter: drop-shadow(0 0 12px rgba(203,178,106,.25))}
+.realm-pct{position:absolute; inset:0; display:grid; place-items:center; font-family:var(--mono); color:rgba(255,255,255,.78); font-size:12px}
+
+.skills{display:grid; grid-template-columns: repeat(2, 1fr); gap:10px}
+.skill{
+  padding:10px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.03);
+}
+.skill .name{font-weight:700; letter-spacing:.5px}
+.skill .desc{color:var(--muted); font-size:12px; margin-top:6px; line-height:1.5}
+.skill .meta{display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-size:12px}
+.skill .cost{font-family:var(--mono); color:rgba(241,220,152,.85)}
+.skill button{margin-top:10px; width:100%}
+.skill.locked{opacity:.6}
+
+.run{display:grid; grid-template-columns: 280px 1fr; gap:14px}
+.scene{min-height:220px; padding:12px; border-radius: 14px; border:1px solid rgba(255,255,255,.10); background:rgba(0,0,0,.18)}
+.scene-title{font-family:"Noto Serif SC", serif; letter-spacing:1px; font-weight:700; font-size:16px}
+.scene-desc{color:var(--muted); margin-top:8px; line-height:1.6; font-size:13px}
+
+.choices{display:flex; flex-wrap:wrap; gap:10px; margin-top:12px}
+.choice{padding:10px 12px; border-radius: 12px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04); cursor:pointer; transition:.12s ease}
+.choice:hover{transform:translateY(-1px); border-color: rgba(203,178,106,.35)}
+
+.tag{padding:7px 10px; border-radius:999px; font-size:12px; border:1px solid rgba(255,255,255,.10); background:rgba(255,255,255,.05)}
+.tag.danger{border-color: rgba(255,77,109,.35); color: rgba(255,190,200,.95)}
+.tag.ok{border-color: rgba(88,240,167,.28); color: rgba(190,255,228,.95)}
+
+.hpbar,.manabar{height:10px; border-radius:999px; background:rgba(255,255,255,.08); overflow:hidden}
+.hpfill{height:100%; background: linear-gradient(90deg, rgba(255,77,109,.95), rgba(241,220,152,.65)); width:100%}
+.mpfill{height:100%; background: linear-gradient(90deg, rgba(127,214,255,.95), rgba(203,178,106,.55)); width:100%}
+
+.stances{display:flex; flex-wrap:wrap; gap:8px; margin-top:8px}
+.stance{padding:8px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04); color:rgba(255,255,255,.86); cursor:pointer}
+.stance.active{border-color: rgba(203,178,106,.45); background: rgba(203,178,106,.12)}
+
+.log{margin-top:12px; border-radius:14px; border:1px solid rgba(255,255,255,.10); background:rgba(0,0,0,.16); overflow:hidden}
+.log-title{padding:10px 12px; font-weight:700; letter-spacing:.5px; border-bottom:1px solid rgba(255,255,255,.08)}
+.log-body{padding:10px 12px; max-height:180px; overflow:auto; font-size:12px; color:rgba(255,255,255,.78); line-height:1.6}
+.log-body::-webkit-scrollbar{width:8px}
+.log-body::-webkit-scrollbar-thumb{background:rgba(255,255,255,.08); border-radius:999px}
+
+.craft{display:grid; gap:10px}
+.recipe{padding:10px; border-radius:14px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.03)}
+.recipe .row{justify-content:space-between}
+.recipe .title{font-weight:700}
+.recipe .hint{color:var(--muted); font-size:12px; margin-top:6px; line-height:1.5}
+.recipe .meta{display:flex; gap:10px; margin-top:10px; color:rgba(255,255,255,.76); font-size:12px}
+.recipe .meta span{font-family:var(--mono)}
+
+.achs{display:grid; gap:10px}
+.ach{padding:10px; border-radius:14px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.03)}
+.ach .name{font-weight:700}
+.ach .desc{color:var(--muted); font-size:12px; margin-top:6px; line-height:1.5}
+.ach.done{border-color: rgba(203,178,106,.35)}
+
+.footer{margin-top:auto; padding:2px 2px 8px 2px}
+
+.modal{position:fixed; inset:0; display:grid; place-items:center; background:rgba(0,0,0,.55); z-index:10}
+.modal.hidden{display:none}
+.modal-card{width:min(720px, 92vw); max-height:80vh; overflow:auto; border-radius:18px; background: linear-gradient(180deg, rgba(20,26,42,.96), rgba(10,12,22,.96)); border:1px solid rgba(255,255,255,.10); box-shadow: 0 30px 90px rgba(0,0,0,.6)}
+.modal-head{display:flex; justify-content:space-between; align-items:center; padding:14px 14px 10px 14px; border-bottom:1px solid rgba(255,255,255,.08)}
+.modal-title{font-family:"Noto Serif SC", serif; letter-spacing:1px; font-size:16px; font-weight:800}
+.modal-body{padding:14px; color:rgba(255,255,255,.82); line-height:1.7; font-size:13px}
+.modal-actions{padding:0 14px 14px 14px; display:flex; justify-content:flex-end}
+.icon{background:transparent; border:1px solid rgba(255,255,255,.10); color:rgba(255,255,255,.75); border-radius:12px; width:34px; height:34px; cursor:pointer}
+.icon:hover{border-color: rgba(203,178,106,.35)}
+
+@media (max-width: 1100px){
+  body{overflow:auto}
+  #bg{position:absolute}
+  .layout{grid-template-columns: 1fr; height:auto}
+  .run{grid-template-columns:1fr}
+}

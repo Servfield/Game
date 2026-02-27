@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <meta name="description" content="玄穹·问道 — 一款高级感的修仙 Roguelite + 轻放置网页小游戏，纯前端，开箱即玩。" />
+  <title>玄穹·问道</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="manifest" href="manifest.json" />
+</head>
+<body>
+  <canvas id="bg" aria-hidden="true"></canvas>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="sigil" aria-hidden="true"></div>
+      <div>
+        <div class="title">玄穹 · 问道</div>
+        <div class="subtitle">Cultivation • Roguelite • Idle</div>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <button id="btnHelp" class="chip">指引</button>
+      <button id="btnExport" class="chip">导出存档</button>
+      <button id="btnImport" class="chip">导入存档</button>
+      <button id="btnReset" class="chip danger">重铸命格</button>
+      <button id="btnSound" class="chip">音效：开</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel left">
+      <div class="panel-title">道途总览</div>
+
+      <div class="card">
+        <div class="row between">
+          <div>
+            <div class="label">境界</div>
+            <div id="realm" class="value">—</div>
+          </div>
+          <div class="realm-ring" title="突破进度">
+            <svg viewBox="0 0 120 120">
+              <circle class="track" cx="60" cy="60" r="44" />
+              <circle id="realmProgress" class="progress" cx="60" cy="60" r="44" />
+            </svg>
+            <div id="realmPct" class="realm-pct">0%</div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="grid stats">
+          <div class="stat">
+            <div class="label">灵根</div>
+            <div id="statLinggen" class="value">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">悟性</div>
+            <div id="statWuxing" class="value">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">气运</div>
+            <div id="statQiyun" class="value">—</div>
+          </div>
+          <div class="stat">
+            <div class="label">神识</div>
+            <div id="statShenshi" class="value">—</div>
+          </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="grid resources">
+          <div class="res"><span class="dot aura"></span> 灵气 <b id="resAura">0</b></div>
+          <div class="res"><span class="dot stone"></span> 灵石 <b id="resStone">0</b></div>
+          <div class="res"><span class="dot pill"></span> 丹药 <b id="resPill">0</b></div>
+          <div class="res"><span class="dot scroll"></span> 残页 <b id="resScroll">0</b></div>
+          <div class="res"><span class="dot mat"></span> 灵材 <b id="resMat">0</b></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row between">
+          <div>
+            <div class="label">吐纳速率</div>
+            <div class="value"><span id="auraRate">0</span> / 秒</div>
+          </div>
+          <div>
+            <div class="label">洞府灵阵</div>
+            <div class="value"><span id="arrayLv">0</span> 阶</div>
+          </div>
+        </div>
+        <div class="mini-actions">
+          <button id="btnMeditate" class="btn primary">打坐吐纳</button>
+          <button id="btnArray" class="btn">升阶灵阵</button>
+          <button id="btnStudy" class="btn">参悟功法</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="panel-title small">功法 · 玄图</div>
+        <div id="skillTree" class="skills"></div>
+      </div>
+    </section>
+
+    <section class="panel center">
+      <div class="panel-title">秘境 · 星渊行</div>
+      <div class="card">
+        <div class="row between">
+          <div>
+            <div class="label">当前行程</div>
+            <div id="runTitle" class="value">未进入秘境</div>
+          </div>
+          <div class="tag" id="dangerTag">宁静</div>
+        </div>
+        <div class="hr"></div>
+        <div class="run">
+          <div class="run-left">
+            <div class="label">层数</div>
+            <div class="value"><span id="floor">0</span> / <span id="maxFloor">0</span></div>
+            <div class="label">体魄</div>
+            <div class="hpbar">
+              <div id="hpFill" class="hpfill"></div>
+            </div>
+            <div class="value"><span id="hp">0</span> / <span id="hpMax">0</span></div>
+            <div class="label">真元</div>
+            <div class="manabar">
+              <div id="mpFill" class="mpfill"></div>
+            </div>
+            <div class="value"><span id="mp">0</span> / <span id="mpMax">0</span></div>
+
+            <div class="hr"></div>
+
+            <div class="label">战斗姿态</div>
+            <div class="stances">
+              <button data-stance="balanced" class="stance active">中正</button>
+              <button data-stance="aggressive" class="stance">凌厉</button>
+              <button data-stance="guard" class="stance">守拙</button>
+              <button data-stance="mystic" class="stance">玄诡</button>
+            </div>
+
+            <div class="hr"></div>
+
+            <div class="mini-actions">
+              <button id="btnEnter" class="btn primary">进入秘境</button>
+              <button id="btnStep" class="btn">踏入下一处</button>
+              <button id="btnRest" class="btn">调息</button>
+              <button id="btnExit" class="btn danger">退隐</button>
+            </div>
+          </div>
+
+          <div class="run-right">
+            <div id="scene" class="scene">
+              <div class="scene-title">星渊幽静，万象未明。</div>
+              <div class="scene-desc">你可在此进行短暂吐纳，或直接踏入秘境，寻机缘、搏妖魔、夺造化。</div>
+              <div id="choices" class="choices"></div>
+            </div>
+
+            <div class="log">
+              <div class="log-title">道途记录</div>
+              <div id="log" class="log-body" role="log" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card subtle">
+        <div class="row between">
+          <div>
+            <div class="label">突破</div>
+            <div class="value">闭关冲关，成败皆命</div>
+          </div>
+          <button id="btnBreak" class="btn primary">闭关突破</button>
+        </div>
+        <div class="hr"></div>
+        <div class="row">
+          <div class="muted">提示：突破成功率与悟性、气运、灵阵阶、功法玄图相关；失败会受创或折损材料，但也可能悟得新法。</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel right">
+      <div class="panel-title">炼制 · 机巧</div>
+
+      <div class="card">
+        <div class="row between">
+          <div>
+            <div class="label">炼丹</div>
+            <div class="value">以灵材凝丹，以丹换命</div>
+          </div>
+          <button id="btnAlchemy" class="btn">开炉</button>
+        </div>
+        <div class="hr"></div>
+        <div id="alchemy" class="craft"></div>
+      </div>
+
+      <div class="card">
+        <div class="row between">
+          <div>
+            <div class="label">炼器</div>
+            <div class="value">凝神锻器，临阵显锋</div>
+          </div>
+          <button id="btnForge" class="btn">起火</button>
+        </div>
+        <div class="hr"></div>
+        <div id="forge" class="craft"></div>
+      </div>
+
+      <div class="card">
+        <div class="panel-title small">命格 · 成就</div>
+        <div id="achievements" class="achs"></div>
+      </div>
+
+      <footer class="footer">
+        <div class="muted">纯前端 | 自动存档 | 支持 GitHub Pages 部署</div>
+      </footer>
+    </section>
+  </main>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div id="modalTitle" class="modal-title">—</div>
+        <button id="modalClose" class="icon">✕</button>
+      </div>
+      <div id="modalBody" class="modal-body"></div>
+      <div class="modal-actions">
+        <button id="modalOk" class="btn primary">知道了</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>

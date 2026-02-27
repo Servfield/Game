@@ -1,0 +1,10 @@
+{
+  "name": "玄穹·问道",
+  "short_name": "玄穹问道",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0b0f1a",
+  "theme_color": "#0b0f1a",
+  "description": "一款高级感的修仙 Roguelite + 轻放置网页小游戏，纯前端开箱即玩。",
+  "icons": []
+}
